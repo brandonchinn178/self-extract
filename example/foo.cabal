@@ -1,0 +1,21 @@
+name:                foo
+version:             0.1.0.0
+license:             AllRightsReserved
+author:              Brandon Chinn
+maintainer:          brandon@leapyear.io
+category:            Development
+build-type:          Custom
+cabal-version:       >=1.10
+
+custom-setup
+  setup-depends: base, Cabal, self-extract
+
+executable foo
+  hs-source-dirs:      exe
+  main-is:             Foo.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , self-extract
+  ghc-options: -O2 -fPIC
+    -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wcompat
+    -Wredundant-constraints -Wnoncanonical-monad-instances -Werror
