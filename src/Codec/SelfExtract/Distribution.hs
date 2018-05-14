@@ -7,13 +7,14 @@ module Codec.SelfExtract.Distribution
   , bundle'
   ) where
 
+import Control.Monad.Extra (unlessM)
 import Data.Binary (Word32, encode)
 import Data.ByteString as BS
 import Data.ByteString.Lazy as LBS
 import Data.FileEmbed (injectFileWith)
 import Distribution.Simple.LocalBuildInfo (LocalBuildInfo(..))
 import Path (Dir, File, Path, fromAbsFile, parseRelDir, parseRelFile, relfile, toFilePath, (</>))
-import Path.IO (renameFile, resolveDir', withSystemTempDir)
+import Path.IO (doesFileExist, renameFile, resolveDir', withSystemTempDir)
 import System.PosixCompat.Files (fileSize, getFileStatus)
 
 import Codec.SelfExtract.Tar (tar)
@@ -34,7 +35,9 @@ bundle' exeName dir LocalBuildInfo{buildDir} = do
   exeDir <- resolveDir' buildDir
   exeNameDir <- parseRelDir exeName
   exeNameFile <- parseRelFile exeName
+
   let exe = exeDir </> exeNameDir </> exeNameFile
+  unlessM (doesFileExist exe) $ error $ "Executable does not exist: " ++ exeName
 
   size <- getFileSize exe
 

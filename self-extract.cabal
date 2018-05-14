@@ -17,6 +17,7 @@ library
                      , Cabal
                      , binary
                      , bytestring
+                     , extra
                      , file-embed
                      , path
                      , path-io
