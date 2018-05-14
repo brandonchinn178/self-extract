@@ -9,7 +9,7 @@ synopsis:            A Haskell library to make self-extracting executables
 description:         A Haskell library to make self-extracting executables.
 build-type:          Simple
 cabal-version:       1.18
-extra-doc-files:     README.md
+extra-doc-files:     CHANGELOG.md, README.md
 
 source-repository head
   type: git
