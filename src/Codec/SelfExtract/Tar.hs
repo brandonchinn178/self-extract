@@ -1,3 +1,15 @@
+{-|
+Module      :  Codec.SelfExtract.Tar
+Maintainer  :  Brandon Chinn <brandon@leapyear.io>
+Stability   :  experimental
+Portability :  portable
+
+Defines utilities for creating/extracting TAR archives.
+
+These functions shell out to the 'tar' process because Haskell packages that implement Tar would
+need some C header files, which we don't want to require on the user end.
+-}
+
 module Codec.SelfExtract.Tar
   ( tar
   , untar
@@ -8,9 +20,6 @@ import Path.IO (ensureDir)
 import System.Process (callProcess)
 
 -- | Zip the given directory into the given archive.
---
--- Shelling out to `tar` because Haskell Tar packages would need the C header files, which we don't
--- require on the client end.
 tar :: Path b0 Dir -> Path b1 File -> IO ()
 tar src archive = callProcess "tar" ["-czf", toFilePath archive, "-C", toFilePath src, "."]
 
