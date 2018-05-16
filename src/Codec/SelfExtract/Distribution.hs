@@ -21,7 +21,6 @@ import Path
     , Path
     , fromAbsFile
     , parseAbsDir
-    , parseRelDir
     , parseRelFile
     , relfile
     , toFilePath
