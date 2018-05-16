@@ -2,7 +2,7 @@ import Codec.SelfExtract.Distribution (bundle)
 import Distribution.Simple
 
 main = defaultMainWithHooks simpleUserHooks
-  { postBuild = \args bf pd lbi -> do
-      postBuild simpleUserHooks args bf pd lbi
+  { postCopy = \args flags pd lbi -> do
+      postCopy simpleUserHooks args flags pd lbi
       bundle "self-extract-basic" "dist" lbi
   }
