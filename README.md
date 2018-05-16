@@ -23,8 +23,6 @@ executable name-of-executable
 
 ### Setup.hs
 
-Basic:
-
 ```
 import Codec.SelfExtract.Distribution (bundle)
 import Distribution.Simple
@@ -36,23 +34,7 @@ main = defaultMainWithHooks simpleUserHooks
   }
 ```
 
-Using the [Path](https://hackage.haskell.org/package/path-0.6.1) library:
-
-```
-import Codec.SelfExtract.Distribution (bundle')
-import Distribution.Simple
-import Path (reldir)
-
-main = defaultMainWithHooks simpleUserHooks
-  { postCopy = \args cf pd lbi -> do
-      postCopy simpleUserHooks args cf pd lbi
-      bundle' "name-of-executable" [reldir|dir-to-bundle|] lbi
-  }
-```
-
 ### Executable file
-
-Basic:
 
 ```
 import Codec.SelfExtract (extractTo)
@@ -71,20 +53,6 @@ import System.Directory (removeDirectory)
 
 main = do
   withExtractToTemp $ \tmp -> do
-    ...
-```
-
-Using the [Path](https://hackage.haskell.org/package/path-0.6.1) library:
-
-```
-import Codec.SelfExtract (extractTo', withExtractToTemp')
-import Path (absdir, reldir)
-import Path.IO (removeDir)
-
-main = do
-  extractTo' $ [reldir|dir|] -- will extract to $CWD/dir
-  extractTo' $ [absdir|/usr/local/lib|]
-  withExtractToTemp' $ \tmp -> do
     ...
 ```
 

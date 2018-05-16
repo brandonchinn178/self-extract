@@ -1,3 +1,12 @@
+{-|
+Module      :  Codec.SelfExtract.Distribution
+Maintainer  :  Brandon Chinn <brandon@leapyear.io>
+Stability   :  experimental
+Portability :  portable
+
+Defines functions that should be used in the @Setup.hs@ file.
+-}
+
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE QuasiQuotes #-}
@@ -21,7 +30,6 @@ import Path
     , Path
     , fromAbsFile
     , parseAbsDir
-    , parseRelDir
     , parseRelFile
     , relfile
     , toFilePath
@@ -34,15 +42,29 @@ import Codec.SelfExtract.Tar (tar)
 
 -- | Bundle the given directory into the executable with the given name.
 --
--- To be used as part of the Setup.hs file.
+-- For example, to bundle the @static/@ directory in the executable named @install-files@:
+--
+-- @
+-- main = defaultMainWithHooks simpleUserHooks
+--   { postCopy = \args cf pd lbi -> do
+--       postCopy simpleUserHooks args cf pd lbi
+--       bundle "install-files" ".\/static\/" lbi
+--   }
+-- @
 bundle :: String -> FilePath -> LocalBuildInfo -> IO ()
 bundle exe dir lbi = do
   dir' <- resolveDir' dir
   bundle' exe dir' lbi
 
--- | Bundle the given directory into the executable with the given name.
+-- | Same as 'bundle', except using the 'Path' library.
 --
--- To be used as part of the Setup.hs file.
+-- @
+-- main = defaultMainWithHooks simpleUserHooks
+--   { postCopy = \args cf pd lbi -> do
+--       postCopy simpleUserHooks args cf pd lbi
+--       bundle' "install-files" [reldir|.\/static\/|] lbi
+--   }
+-- @
 bundle' :: String -> Path b Dir -> LocalBuildInfo -> IO ()
 bundle' exeName dir lbi = do
   exe <- getExe lbi exeName

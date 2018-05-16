@@ -1,3 +1,12 @@
+{-|
+Module      :  Codec.SelfExtract
+Maintainer  :  Brandon Chinn <brandon@leapyear.io>
+Stability   :  experimental
+Portability :  portable
+
+Defines functions that should be used in a self-extractable executable.
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
@@ -21,14 +30,29 @@ import System.IO (IOMode(..), SeekMode(..), hClose, hSeek, withFile)
 import Codec.SelfExtract.Tar (untar)
 
 -- | Extract the self-bundled executable to the given path.
+--
+-- @
+-- extractTo "dir"  -- will extract to $CWD/dir
+-- extractTo "\/usr\/local\/lib"
+-- @
 extractTo :: FilePath -> IO ()
 extractTo = resolveDir' >=> extractTo'
 
 -- | Extract the self-bundled executable to a temporary path.
+--
+-- @
+-- withExtractToTemp $ \tmp -> do
+--   ...
+-- @
 withExtractToTemp :: (FilePath -> IO ()) -> IO ()
 withExtractToTemp action = withExtractToTemp' (action . fromAbsDir)
 
--- | Extract the self-bundled executable to the given path.
+-- | Same as 'extractTo', except using the 'Path' library.
+--
+-- @
+-- extractTo' [reldir|dir|]  -- will extract to $CWD/dir
+-- extractTo' [absdir|\/usr\/local\/lib|]
+-- @
 extractTo' :: Path b Dir -> IO ()
 extractTo' dir = do
   self <- getExecutablePath >>= parseAbsFile
@@ -40,7 +64,7 @@ extractTo' dir = do
     hClose hTemp
     untar archive dir
 
--- | Extract the self-bundled executable to a temporary path.
+-- | Same as 'withExtractToTemp', except using the 'Path' library.
 withExtractToTemp' :: (Path Abs Dir -> IO ()) -> IO ()
 withExtractToTemp' action = withSystemTempDir "" $ \dir -> extractTo' dir >> action dir
 
