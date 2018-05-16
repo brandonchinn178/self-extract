@@ -30,8 +30,8 @@ import Codec.SelfExtract.Distribution (bundle)
 import Distribution.Simple
 
 main = defaultMainWithHooks simpleUserHooks
-  { postBuild = \args bf pd lbi -> do
-      postBuild simpleUserHooks args bf pd lbi
+  { postCopy = \args cf pd lbi -> do
+      postCopy simpleUserHooks args cf pd lbi
       bundle "name-of-executable" "dir-to-bundle" lbi
   }
 ```
@@ -44,8 +44,8 @@ import Distribution.Simple
 import Path (reldir)
 
 main = defaultMainWithHooks simpleUserHooks
-  { postBuild = \args bf pd lbi -> do
-      postBuild simpleUserHooks args bf pd lbi
+  { postCopy = \args cf pd lbi -> do
+      postCopy simpleUserHooks args cf pd lbi
       bundle' "name-of-executable" [reldir|dir-to-bundle|] lbi
   }
 ```
