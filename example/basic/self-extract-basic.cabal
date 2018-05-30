@@ -2,7 +2,7 @@ name:                self-extract-basic
 version:             0.1.0.0
 license:             AllRightsReserved
 author:              Brandon Chinn
-maintainer:          brandon@leapyear.io
+maintainer:          brandonchinn178@gmail.com
 category:            Development
 build-type:          Custom
 cabal-version:       >=1.10
