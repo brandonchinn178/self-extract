@@ -5,4 +5,4 @@ packages:
 - .
 
 extra-deps:
-- example/basic
+- example/cabal

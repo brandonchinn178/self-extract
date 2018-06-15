@@ -1,8 +1,10 @@
-import Codec.SelfExtract.Distribution (bundle)
+import Codec.SelfExtract (bundle)
+import Codec.SelfExtract.Distribution (getExe)
 import Distribution.Simple
 
 main = defaultMainWithHooks simpleUserHooks
   { postCopy = \args flags pd lbi -> do
       postCopy simpleUserHooks args flags pd lbi
-      bundle "self-extract-basic" "dist" lbi
+      exe <- getExe lbi "self-extract-cabal"
+      bundle exe "dist/"
   }
