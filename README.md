@@ -7,13 +7,6 @@ A Haskell library that can make an executable self-extracting.
 ### Basic
 
 ```
--- Build.hs
-import Codec.SelfExtract (bundle)
-
-main :: IO ()
-main = bundle "./Foo" "./artifacts"
-
--- Foo.hs
 import Codec.SelfExtract (extractTo)
 import System.Environment (getArgs)
 
@@ -24,13 +17,13 @@ main = do
 ```
 
 ```
-$ stack ghc Foo.hs
-$ mkdir artifacts && touch artifacts/foo.txt artifacts/bar.txt
-$ stack Build.hs
-$ ./Foo hello
-$ ls hello
-foo.txt
-bar.txt
+$ stack ghc Example.hs
+$ mkdir artifacts && touch artifacts/hello.txt artifacts/world.txt
+$ stack build self-extract && stack exec -- self-bundle ./Example artifacts/
+$ ./Example dist
+$ ls dist
+hello.txt
+world.txt
 ```
 
 ### With Cabal hooks
