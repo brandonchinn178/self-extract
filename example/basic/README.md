@@ -1,16 +1,4 @@
-# self-extract-basic
+# Basic example
 
-A basic example package that bundles the `dist/` directory and extracts it elsewhere.
-
-```
-$ stack build self-extract-basic
-
-$ stack exec self-extract-basic
-Enter the directory to extract contents:
-foo/
-Contents of hello-world.txt:
-Hello world!
-
-$ ls foo/
-hello-world.txt
-```
+1. Build the executable, bundling the `dist` directory: `./build.sh`
+1. Run the executable, extracting to the given directory: `build/run-example DIR`

@@ -1,4 +1,4 @@
-name:                self-extract-basic
+name:                self-extract-cabal
 version:             0.1.0.0
 license:             AllRightsReserved
 author:              Brandon Chinn
@@ -10,11 +10,11 @@ cabal-version:       >=1.10
 custom-setup
   setup-depends: base, Cabal, self-extract
 
-executable self-extract-basic
+executable self-extract-cabal
   main-is:             Main.hs
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
                      , self-extract
-  ghc-options: -O2 -fPIC
+  ghc-options: -O2
     -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wcompat
     -Wredundant-constraints -Wnoncanonical-monad-instances -Werror

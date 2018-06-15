@@ -1,9 +1,8 @@
 resolver: lts-10.6
-require-stack-version: "== 1.6.5"
 install-ghc: true
 
 packages:
 - .
 
 extra-deps:
-- example/basic
+- example/cabal

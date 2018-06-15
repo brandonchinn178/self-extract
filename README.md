@@ -4,56 +4,69 @@ A Haskell library that can make an executable self-extracting.
 
 ## Usage
 
-### .cabal file
+### Basic
 
 ```
-...
-build-type: Custom
-...
+import Codec.SelfExtract (extractTo)
+import System.Environment (getArgs)
 
+main :: IO ()
+main = do
+  dir <- head <$> getArgs
+  extractTo dir
+```
+
+```
+$ stack ghc Example.hs
+$ mkdir artifacts && touch artifacts/hello.txt artifacts/world.txt
+$ stack build self-extract && stack exec -- self-bundle ./Example artifacts/
+$ ./Example dist
+$ ls dist
+hello.txt
+world.txt
+```
+
+### With Cabal hooks
+
+* Add `self-extract` to the Cabal file
+
+```
 custom-setup
   setup-depends: base, Cabal, self-extract
 
-...
-
 executable name-of-executable
-  build-depends: self-extract, ...
-  ...
+  build-depends: self-extract
 ```
 
-### Setup.hs
+* Call `bundle` in `Setup.hs`
 
 ```
-import Codec.SelfExtract.Distribution (bundle)
+import Codec.SelfExtract (bundle)
+import Codec.SelfExtract.Distribution (getExe)
 import Distribution.Simple
 
 main = defaultMainWithHooks simpleUserHooks
   { postCopy = \args cf pd lbi -> do
       postCopy simpleUserHooks args cf pd lbi
-      bundle "name-of-executable" "dir-to-bundle" lbi
+      exe <- getExe lbi "name-of-executable"
+      bundle exe "dir-to-bundle"
   }
 ```
 
-### Executable file
+* Call `extractTo` in the executable
 
 ```
-import Codec.SelfExtract (extractTo)
+import Codec.SelfExtract
 
 main = do
-  extractTo "dir" -- will extract to $CWD/dir
+  -- will extract to $CWD/dir
+  extractTo "dir"
+
+  -- will extract to /usr/local/lib
   extractTo "/usr/local/lib"
-  ...
-```
 
-Extract to a temporary directory:
-
-```
-import Codec.SelfExtract (withExtractToTemp)
-import System.Directory (removeDirectory)
-
-main = do
-  withExtractToTemp $ \tmp -> do
-    ...
+  -- will extract to a temporary directory
+  withExtractToTemp $ \dir -> ...
 ```
 
 ### Details
@@ -64,10 +77,9 @@ if you need to know the details of how it works.
 When the executable containing `extractTo` is built, some space will be allocated to contain the
 size of the binary.
 
-`bundle` will find the executable from `LocalBuildInfo`'s `buildDir`. It will take the directory
-specified and run `tar` on it. It will also get the size of the executable and write the size into
-the space allocated by `extractTo`. Then `bundle` will replace the executable with the executable
-itself concatenated with the tar archive.
+`bundle` will take the directory specified and run `tar` on it. It will also get the size of the
+given executable and write the size into the space allocated by `extractTo`. Then `bundle` will
+replace the executable with the executable itself concatenated with the tar archive.
 
-When `extractTo` is called, it will read the size of the executable that was written in `bundle`.
+When `extractTo` is called, it will read the size of the executable that was written with `bundle`.
 After seeking to the size of the binary, the tar archive can be extracted to the desired directory.
