@@ -20,6 +20,7 @@ module Codec.SelfExtract
   , bundle'
   ) where
 
+import Codec.Archive.Tar.GZip (createGZ, extractGZ)
 import Control.Monad ((>=>))
 import Control.Monad.Extra (unlessM)
 import Data.Binary (Word32, decode, encode)
@@ -43,8 +44,6 @@ import Path.IO
 import System.Environment (getExecutablePath)
 import System.IO (IOMode(..), SeekMode(..), hClose, hSeek, withFile)
 import qualified System.PosixCompat.Files as Posix
-
-import Codec.SelfExtract.Tar (tar, untar)
 
 {- With FilePaths -}
 
@@ -96,7 +95,7 @@ extractTo' dir = do
       BS.hGetContents hSelf >>= BS.hPut hTemp
 
     hClose hTemp
-    untar archive dir
+    extractGZ (toFilePath dir) $ fromAbsFile archive
 
 -- | Same as 'withExtractToTemp', except using the 'Path' library.
 withExtractToTemp' :: (Path Abs Dir -> IO ()) -> IO ()
@@ -120,11 +119,11 @@ bundle' exe dir = do
       (toFilePath exe)
       (fromAbsFile exeWithSize)
 
-    let zippedDir = tempDir </> [relfile|bundle.tar.gz|]
-    tar dir zippedDir
+    let archive = tempDir </> [relfile|bundle.tar.gz|]
+    createGZ (fromAbsFile archive) $ toFilePath dir
 
     let combined = tempDir </> [relfile|exe_and_bundle|]
-    cat [exeWithSize, zippedDir] combined
+    cat [exeWithSize, archive] combined
 
     renameFile combined exe
 
