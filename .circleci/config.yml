@@ -40,14 +40,16 @@ aliases:
   - &run-build
     run:
       name: Build package
-      command: stack build self-extract
+      command: |
+        stack build self-extract
+        # build the basic example to test self-extraction without build environment
+        example/basic/build.sh
 
   # test steps
   - &run-basic-example
     run:
       name: Run the basic example
       command: |
-        example/basic/build.sh
         example/basic/build/run-example dest/
         [ -f dest/hello-world.txt ]
   - &run-cabal-example
@@ -89,6 +91,7 @@ jobs:
           root: .
           paths:
               - .stack-work
+              - example/basic/build/
 
   basic-example:
     <<: *docker-linux
@@ -96,9 +99,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - *install-stack
-      - restore_cache:
-          key: *cache-key
       - *run-basic-example
 
   cabal-example:
@@ -107,6 +107,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - *install-system-deps
       - *install-stack
       - restore_cache:
           key: *cache-key
