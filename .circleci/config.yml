@@ -8,6 +8,10 @@ aliases:
     working_directory: /root/src
 
   # system dependencies
+  - &install-system-deps
+    run:
+      name: Install system dependencies
+      command: scripts/install-system-deps.sh
   - &install-stack
     run:
       name: Install stack
@@ -71,6 +75,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - *install-system-deps
       - *install-stack
       - restore_cache:
           key: *cache-key
