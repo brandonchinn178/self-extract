@@ -41,7 +41,7 @@ aliases:
     run:
       name: Build package
       command: |
-        stack build self-extract
+        stack build self-extract --flag self-extract:dev
         # build the basic example to test self-extraction without build environment
         example/basic/build.sh
 
