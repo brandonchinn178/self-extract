@@ -15,6 +15,11 @@ source-repository head
   type: git
   location: https://github.com/brandonchinn178/self-extract.git
 
+flag dev
+  description:        Turn on development settings.
+  manual:             True
+  default:            False
+
 library
   hs-source-dirs:      src
   default-language:    Haskell2010
@@ -31,9 +36,15 @@ library
                      , process >= 1.6 && < 1.7
                      , unix-compat >= 0.5 && < 0.6
                      , ztar >= 0.0.2 && < 0.0.3
-  ghc-options:
-    -Wall -Wincomplete-uni-patterns -Wincomplete-record-updates -Wcompat
-    -Wredundant-constraints -Wnoncanonical-monad-instances
+  ghc-options: -Wall
+  if flag(dev)
+    ghc-options:      -Werror
+  if flag(dev) && impl(ghc >= 8.0)
+    ghc-options:      -Wcompat
+                      -Wincomplete-record-updates
+                      -Wincomplete-uni-patterns
+                      -Wnoncanonical-monad-instances
+                      -Wnoncanonical-monadfail-instances
 
 executable self-bundle
   main-is:              Bundle.hs
@@ -41,3 +52,12 @@ executable self-bundle
   default-language:     Haskell2010
   build-depends:        base
                       , self-extract
+  ghc-options: -Wall
+  if flag(dev)
+    ghc-options:      -Werror
+  if flag(dev) && impl(ghc >= 8.0)
+    ghc-options:      -Wcompat
+                      -Wincomplete-record-updates
+                      -Wincomplete-uni-patterns
+                      -Wnoncanonical-monad-instances
+                      -Wnoncanonical-monadfail-instances

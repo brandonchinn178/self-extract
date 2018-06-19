@@ -3,7 +3,6 @@
 set -ex
 builtin cd "$(dirname "${BASH_SOURCE[0]}")"
 
-stack build self-extract
 mkdir -p build/
 
 cp Example.hs build/
