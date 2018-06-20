@@ -11,7 +11,7 @@ function is_command() {
 function install_linux() {
     if is_command yum; then
         yum update -y --exclude=filesystem
-        yum install -y zlib-devel
+        yum install -y bzip2-devel zlib-devel
     fi
 }
 
