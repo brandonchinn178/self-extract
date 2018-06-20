@@ -57,11 +57,6 @@ extractTo :: FilePath -> IO ()
 extractTo = resolveDir' >=> extractTo'
 
 -- | Extract the self-bundled executable to a temporary path.
---
--- @
--- withExtractToTemp $ \tmp -> do
---   ...
--- @
 withExtractToTemp :: (FilePath -> IO ()) -> IO ()
 withExtractToTemp action = withExtractToTemp' (action . fromAbsDir)
 
