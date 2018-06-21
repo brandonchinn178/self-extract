@@ -1,3 +1,8 @@
+## self-extract 0.3.1
+
+Other fixes:
+* Uses `Zip` instead of `GZip`, due to filename limits in tar (#14)
+
 ## self-extract 0.3.0
 
 Breaking fixes:
