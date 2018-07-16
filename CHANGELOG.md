@@ -1,3 +1,8 @@
+## self-extract 0.3.2
+
+Changes:
+* Bump `ztar` version
+
 ## self-extract 0.3.1
 
 Other fixes:
