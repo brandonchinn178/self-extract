@@ -1,3 +1,8 @@
+## self-extract 0.3.2
+
+Fixes:
+* Use `GZip` instead of `Zip` (#14), thanks to ztar-0.1.1
+
 ## self-extract 0.3.1
 
 Other fixes:
