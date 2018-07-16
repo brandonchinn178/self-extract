@@ -6,4 +6,4 @@ packages:
 
 extra-deps:
 - example/cabal
-- ztar-0.1.0
+- ztar-0.1.1
