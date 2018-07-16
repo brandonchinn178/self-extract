@@ -115,7 +115,7 @@ bundle' exe dir = do
       (fromAbsFile exeWithSize)
 
     let archive = tempDir </> [relfile|bundle.tar.gz|]
-    create Zip (fromAbsFile archive) $ toFilePath dir
+    create GZip (fromAbsFile archive) $ toFilePath dir
 
     let combined = tempDir </> [relfile|exe_and_bundle|]
     cat [exeWithSize, archive] combined
