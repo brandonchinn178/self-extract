@@ -98,7 +98,7 @@ extractTo' dir = do
       BS.hGetContents hSelf >>= BS.hPut hTemp
 
     hClose hTemp
-    extract (toFilePath dir) $ fromAbsFile archive
+    extract dir archive
 
 -- | Same as 'withExtractToTemp', except using the 'Path' library.
 withExtractToTemp' :: (Path Abs Dir -> IO ()) -> IO ()
@@ -123,7 +123,7 @@ bundle' exe dir = do
       (fromAbsFile exeWithSize)
 
     let archive = tempDir </> [relfile|bundle.tar.gz|]
-    create GZip (fromAbsFile archive) $ toFilePath dir
+    create GZip archive dir
 
     let combined = tempDir </> [relfile|exe_and_bundle|]
     cat [exeWithSize, archive] combined

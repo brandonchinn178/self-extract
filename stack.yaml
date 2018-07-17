@@ -4,6 +4,10 @@ install-ghc: true
 packages:
 - .
 
+flags:
+  ztar:
+    typed-paths: true
+
 extra-deps:
 - example/cabal
-- ztar-0.1.2
+- ztar-0.1.3
