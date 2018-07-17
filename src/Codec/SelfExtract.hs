@@ -34,13 +34,21 @@ import Path
     , Path
     , fromAbsDir
     , fromAbsFile
+    , parent
     , parseAbsFile
     , relfile
     , toFilePath
     , (</>)
     )
 import Path.IO
-    (doesFileExist, renameFile, resolveDir', resolveFile', withSystemTempDir, withSystemTempFile)
+    ( doesFileExist
+    , renameFile
+    , resolveDir'
+    , resolveFile'
+    , withSystemTempDir
+    , withSystemTempFile
+    , withTempDir
+    )
 import System.Environment (getExecutablePath)
 import System.IO (IOMode(..), SeekMode(..), hClose, hSeek, withFile)
 import qualified System.PosixCompat.Files as Posix
@@ -107,7 +115,7 @@ bundle' exe dir = do
 
   size <- getFileSize exe
 
-  withSystemTempDir "self-extract" $ \tempDir -> do
+  withTempDir (parent exe) "self-extract" $ \tempDir -> do
     let exeWithSize = tempDir </> [relfile|exe_with_size|]
     injectFileWith "self-extract"
       (LBS.toStrict $ encode size)
