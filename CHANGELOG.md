@@ -1,3 +1,9 @@
+## self-extract 0.3.3
+
+Fixes:
+* Make bundling occur in same directory as exe
+* Use typed paths for `ztar`
+
 ## self-extract 0.3.2
 
 Fixes:
