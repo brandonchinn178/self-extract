@@ -10,4 +10,4 @@ flags:
 
 extra-deps:
 - example/cabal
-- ztar-0.1.3
+- ztar-0.2.0

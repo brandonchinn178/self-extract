@@ -20,7 +20,7 @@ module Codec.SelfExtract
   , bundle'
   ) where
 
-import Codec.Archive.ZTar (Compression(..), create, extract)
+import Codec.Archive.ZTar (Compression(..), create', extract')
 import Control.Monad ((>=>))
 import Control.Monad.Extra (unlessM)
 import Data.Binary (Word32, decode, encode)
@@ -98,7 +98,7 @@ extractTo' dir = do
       BS.hGetContents hSelf >>= BS.hPut hTemp
 
     hClose hTemp
-    extract dir archive
+    extract' archive dir
 
 -- | Same as 'withExtractToTemp', except using the 'Path' library.
 withExtractToTemp' :: (Path Abs Dir -> IO ()) -> IO ()
@@ -123,7 +123,7 @@ bundle' exe dir = do
       (fromAbsFile exeWithSize)
 
     let archive = tempDir </> [relfile|bundle.tar.gz|]
-    create GZip archive dir
+    create' GZip archive dir
 
     let combined = tempDir </> [relfile|exe_and_bundle|]
     cat [exeWithSize, archive] combined
