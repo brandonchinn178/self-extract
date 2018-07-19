@@ -30,7 +30,7 @@ aliases:
         )
         cat "${FILES[@]}" > cache-key.txt
   - &cache-key
-    v2-{{ checksum "cache-key.txt" }}
+    v0-{{ checksum "cache-key.txt" }}
   - &install-stack-deps
     run:
       name: Build external dependencies
