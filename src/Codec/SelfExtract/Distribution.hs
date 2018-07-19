@@ -14,7 +14,8 @@ module Codec.SelfExtract.Distribution
   , getExe'
   ) where
 
-import Distribution.Simple.LocalBuildInfo (InstallDirs(..), LocalBuildInfo(..), fromPathTemplate)
+import Distribution.Simple.LocalBuildInfo
+    (InstallDirs(..), LocalBuildInfo(..), fromPathTemplate)
 import Distribution.Simple.Setup (ConfigFlags(..), fromFlag)
 import Path (Abs, File, Path, parseAbsDir, parseRelFile, toFilePath, (</>))
 

@@ -50,6 +50,10 @@ aliases:
     run:
       name: Run hlint
       command: scripts/hlint.sh
+  - &run-stylish-haskell
+    run:
+      name: Run stylish-haskell
+      command: scripts/stylish-haskell.sh
   - &run-basic-example
     run:
       name: Run the basic example
@@ -109,6 +113,18 @@ jobs:
           key: *cache-key
       - *run-hlint
 
+  stylish-haskell:
+    <<: *docker-linux
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - *install-system-deps
+      - *install-stack
+      - restore_cache:
+          key: *cache-key
+      - *run-stylish-haskell
+
   basic-example:
     <<: *docker-linux
     steps:
@@ -139,6 +155,9 @@ workflows:
           requires:
             - prebuild
       - hlint:
+          requires:
+            - build
+      - stylish-haskell:
           requires:
             - build
       - basic-example:
