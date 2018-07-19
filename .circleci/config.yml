@@ -34,7 +34,7 @@ aliases:
   - &install-stack-deps
     run:
       name: Build external dependencies
-      command: stack build --only-dependencies
+      command: scripts/install-stack-deps.sh
 
   # build steps
   - &run-build
