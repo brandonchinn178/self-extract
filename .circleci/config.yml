@@ -30,11 +30,11 @@ aliases:
         )
         cat "${FILES[@]}" > cache-key.txt
   - &cache-key
-    v2-{{ checksum "cache-key.txt" }}
+    v0-{{ checksum "cache-key.txt" }}
   - &install-stack-deps
     run:
       name: Build external dependencies
-      command: stack build --only-dependencies
+      command: scripts/install-stack-deps.sh
 
   # build steps
   - &run-build
@@ -46,6 +46,14 @@ aliases:
         example/basic/build.sh
 
   # test steps
+  - &run-hlint
+    run:
+      name: Run hlint
+      command: scripts/hlint.sh
+  - &run-stylish-haskell
+    run:
+      name: Run stylish-haskell
+      command: scripts/stylish-haskell.sh
   - &run-basic-example
     run:
       name: Run the basic example
@@ -93,6 +101,30 @@ jobs:
               - .stack-work
               - example/basic/build/
 
+  hlint:
+    <<: *docker-linux
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - *install-system-deps
+      - *install-stack
+      - restore_cache:
+          key: *cache-key
+      - *run-hlint
+
+  stylish-haskell:
+    <<: *docker-linux
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - *install-system-deps
+      - *install-stack
+      - restore_cache:
+          key: *cache-key
+      - *run-stylish-haskell
+
   basic-example:
     <<: *docker-linux
     steps:
@@ -122,6 +154,12 @@ workflows:
       - build:
           requires:
             - prebuild
+      - hlint:
+          requires:
+            - build
+      - stylish-haskell:
+          requires:
+            - build
       - basic-example:
           requires:
             - build

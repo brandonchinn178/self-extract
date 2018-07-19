@@ -1,0 +1,7 @@
+# HLint configuration file
+# Format: https://github.com/ndmitchell/hlint/blob/master/data/default.yaml
+
+## HLint hints we don't care about
+
+- ignore:
+    name: Eta reduce

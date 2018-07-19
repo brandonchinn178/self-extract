@@ -8,15 +8,14 @@ Defines functions that should be used in the @Setup.hs@ file.
 -}
 
 {-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuotes #-}
 
 module Codec.SelfExtract.Distribution
   ( getExe
   , getExe'
   ) where
 
-import Distribution.Simple.LocalBuildInfo (InstallDirs(..), LocalBuildInfo(..), fromPathTemplate)
+import Distribution.Simple.LocalBuildInfo
+    (InstallDirs(..), LocalBuildInfo(..), fromPathTemplate)
 import Distribution.Simple.Setup (ConfigFlags(..), fromFlag)
 import Path (Abs, File, Path, parseAbsDir, parseRelFile, toFilePath, (</>))
 

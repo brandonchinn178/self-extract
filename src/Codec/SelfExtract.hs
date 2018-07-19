@@ -7,8 +7,8 @@ Portability :  portable
 Defines functions that should be used in a self-extractable executable.
 -}
 
-{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Codec.SelfExtract
