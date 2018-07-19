@@ -8,8 +8,6 @@ Defines functions that should be used in the @Setup.hs@ file.
 -}
 
 {-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuotes #-}
 
 module Codec.SelfExtract.Distribution
   ( getExe

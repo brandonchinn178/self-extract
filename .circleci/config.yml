@@ -46,6 +46,10 @@ aliases:
         example/basic/build.sh
 
   # test steps
+  - &run-hlint
+    run:
+      name: Run hlint
+      command: scripts/hlint.sh
   - &run-basic-example
     run:
       name: Run the basic example
@@ -93,6 +97,18 @@ jobs:
               - .stack-work
               - example/basic/build/
 
+  hlint:
+    <<: *docker-linux
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - *install-system-deps
+      - *install-stack
+      - restore_cache:
+          key: *cache-key
+      - *run-hlint
+
   basic-example:
     <<: *docker-linux
     steps:
@@ -122,6 +138,9 @@ workflows:
       - build:
           requires:
             - prebuild
+      - hlint:
+          requires:
+            - build
       - basic-example:
           requires:
             - build
