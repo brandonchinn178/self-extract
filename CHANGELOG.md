@@ -1,3 +1,8 @@
+## self-extract 0.3.4
+
+Fixes:
+* Better error message if no archive was bundled
+
 ## self-extract 0.3.3
 
 Fixes:

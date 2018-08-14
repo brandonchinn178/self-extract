@@ -22,7 +22,7 @@ module Codec.SelfExtract
 
 import Codec.Archive.ZTar (Compression(..), create', extract')
 import Control.Monad ((>=>))
-import Control.Monad.Extra (unlessM)
+import Control.Monad.Extra (unlessM, whenM)
 import Data.Binary (Word32, decode, encode)
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as LBS
@@ -50,7 +50,7 @@ import Path.IO
     , withTempDir
     )
 import System.Environment (getExecutablePath)
-import System.IO (IOMode(..), SeekMode(..), hClose, hSeek, withFile)
+import System.IO (IOMode(..), SeekMode(..), hClose, hIsEOF, hSeek, withFile)
 import qualified System.PosixCompat.Files as Posix
 
 {- With FilePaths -}
@@ -95,6 +95,7 @@ extractTo' dir = do
   withSystemTempFile "" $ \archive hTemp -> do
     withFile (fromAbsFile self) ReadMode $ \hSelf -> do
       hSeek hSelf AbsoluteSeek $ fromIntegral exeSize
+      whenM (hIsEOF hSelf) $ fail "No archive found. Did you call `bundle'` on this executable?"
       BS.hGetContents hSelf >>= BS.hPut hTemp
 
     hClose hTemp
