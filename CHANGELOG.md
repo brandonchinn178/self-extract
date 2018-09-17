@@ -1,3 +1,8 @@
+## self-extract 0.4.0
+
+Fixes:
+* Works with lts-11.*
+
 ## self-extract 0.3.4
 
 Fixes:
