@@ -1,4 +1,4 @@
-resolver: lts-11.17
+resolver: lts-13.0
 install-ghc: true
 
 packages:
@@ -6,4 +6,4 @@ packages:
 
 extra-deps:
 - example/cabal
-- ztar-1.0.0
+- ztar-1.0.1
