@@ -1,4 +1,4 @@
-resolver: lts-11.17
+resolver: lts-13.0
 install-ghc: true
 
 packages:
@@ -6,4 +6,7 @@ packages:
 
 extra-deps:
 - example/cabal
-- ztar-1.0.0
+- ztar-1.0.1
+# https://github.com/jaspervdj/stylish-haskell/pull/227
+- git: https://github.com/LeapYear/stylish-haskell.git
+  commit: 6861e8c24b9f32dcbffe9762d0807fdaff3fecf4
