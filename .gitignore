@@ -1,5 +1,4 @@
 .DS_Store
 .stack-work/
-self-extract.cabal
 
 example/basic/build/
