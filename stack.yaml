@@ -1,8 +1,4 @@
-resolver: lts-13.0
-install-ghc: true
-
-packages:
-- .
+resolver: lts-21.0
 
 extra-deps:
 - example/cabal
