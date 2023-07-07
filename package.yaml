@@ -34,15 +34,15 @@ library:
   source-dirs: src
   dependencies:
     - base >= 4.7 && < 5
-    - Cabal >= 2.0 && < 3
-    - binary >= 0.8.5 && < 0.9
-    - bytestring >= 0.10.8 && < 0.11
-    - extra >= 1.6 && < 1.7
-    - file-embed >= 0.0.10 && < 0.1
-    - path >= 0.6 && < 0.7
-    - path-io >= 1.3 && < 1.5
-    - unix-compat >= 0.5 && < 0.6
-    - ztar >= 1.0 && < 1.1
+    - Cabal >= 2.0
+    - binary >= 0.8.5
+    - bytestring >= 0.10.8
+    - extra >= 1.6
+    - file-embed >= 0.0.10
+    - path >= 0.6
+    - path-io >= 1.3
+    - unix-compat >= 0.5
+    - ztar >= 1.0
 
 executables:
   self-bundle:
